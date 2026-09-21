@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ оформлен</title>
+    <link rel="icon" href="/static/images/miracle.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/"><img src="/static/images/miracle.png" alt="Логотип" width="100" align="middle"></a>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a> |
+            {% if session.get("user") %}
+                <a href="/logout">Выход ({{ session.get("user") }})</a>
+            {% else %}
+                <a href="/login">Вход</a>
+            {% endif %}
+        </nav>
+    </header>
+ 
+    <main>
+        <h1>Заказ оформлен!</h1>
+        <p>Позиций в заказе: {{ chosen|length }}</p>
+ 
+        <ol>
+            {% for item in chosen %}
+                <li>{{ item.name }} - {{ item.price }} ₽ × {{ item.qty }} шт. = {{ item.cost }} ₽</li>
+            {% endfor %}
+        </ol>
+ 
+        <p><strong>Итого: {{ total }} ₽</strong></p>
+ 
+        <p><a href="/catalog">Вернуться в каталог</a></p>
+    </main>
+ 
+      <footer>
+        <hr>
+        <p><strong>Чудесные средства.</strong> С вас недуг, с нас средство.</p>
+
+        <p>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a>
+        </p>
+
+        <p>
+            Адрес: деревня Верхние Бороды, дом с петухом на крыше<br>
+            Телефон: +7 (000) 000-00-00<br>
+            Почта: hello@miracle.example
+        </p>
+
+        <p><small>Наши средства не являются лекарствами и не заменяют консультацию врача. Наукой эффект не подтверждён, зато подтверждён нашими клиентами. При болезни обращайтесь к врачу.</small></p>
+        <p><small>&copy; 2026 Чудесные средства. Все права защищены (и заговорены).</small></p>
+    </footer>
+</body>
+</html>
+ 

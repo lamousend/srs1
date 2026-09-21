@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="icon" href="/static/images/miracle.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/"><img src="/static/images/miracle.png" alt="Логотип" width="100" align="middle"></a>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a> |
+            {% if session.get("user") %}
+                <a href="/logout">Выход ({{ session.get("user") }})</a>
+            {% else %}
+                <a href="/login">Вход</a>
+            {% endif %}
+        </nav>
+    </header>
+ 
+    <main>
+        <div align="center">
+            <h1>Регистрация</h1>
+ 
+            {% if session.get("user") %}
+                <p>
+                    Вы уже вошли как <strong>{{ session.get("user") }}</strong>.
+                </p>
+                <p>
+                    <a href="/catalog">Перейти в каталог</a> | <a href="/logout">Выйти</a>
+                </p>
+            {% else %}
+                <form action="/register" method="POST">
+                    <p>
+                        <label for="username">Имя:</label>
+                        <input type="text" id="username" name="username" required>
+                    </p>
+ 
+                    <p>
+                        <label for="email">Электронная почта:</label>
+                        <input type="email" id="email" name="email" required>
+                    </p>
+ 
+                    <p>
+                        <label for="password">Пароль:</label>
+                        <input type="password" id="password" name="password" required>
+                    </p>
+ 
+                    <button type="submit">Зарегистрироваться</button>
+                </form>
+ 
+                <p>Уже есть аккаунт? <a href="/login">Войти</a></p>
+            {% endif %}
+        </div>
+    </main>
+ 
+      <footer>
+        <hr>
+        <p><strong>Чудесные средства.</strong> С вас недуг, с нас средство.</p>
+
+        <p>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a>
+        </p>
+
+        <p>
+            Адрес: деревня Верхние Бороды, дом с петухом на крыше<br>
+            Телефон: +7 (000) 000-00-00<br>
+            Почта: hello@miracle.example
+        </p>
+
+        <p><small>Наши средства не являются лекарствами и не заменяют консультацию врача. Наукой эффект не подтверждён, зато подтверждён нашими клиентами. При болезни обращайтесь к врачу.</small></p>
+        <p><small>&copy; 2026 Чудесные средства. Все права защищены (и заговорены).</small></p>
+    </footer>
+</body>
+</html>
+ 

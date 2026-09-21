@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отзывы</title>
+    <link rel="icon" href="/static/images/miracle.png" type="image/png">
+</head>
+<body>
+    <header>
+        <div>
+            <nav>
+                <a href="/"><img src="/static/images/miracle.png" alt="Логотип" width="100" align="middle"></a>
+                <a href="/">Главная</a> |
+                <a href="/catalog">Каталог</a> |
+                <a href="/reviews">Отзывы</a> |
+                {% if session.get("user") %}
+                    <a href="/logout">Выход ({{ session.get("user") }})</a>
+                {% else %}
+                    <a href="/login">Вход</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+ 
+    <main>
+        <section>
+            <h1>ОТЗЫВЫ КЛИЕНТОВ</h1>
+            <p>Истории людей, которые уже попробовали наши средства. Читайте, сравнивайте и наслаждайтесь.</p>
+        </section>
+ 
+        <section>
+            <h2>
+                <img src="/static/images/potion1.png" alt="potion1" height="70">
+                Что говорят о нас клиенты ({{ reviews|length }})
+            </h2>
+ 
+            {% for r in reviews %}
+                <article>
+                    <h3>{{ r.name }} - {{ r.rating }} из 5</h3>
+                    <p>{{ r.text }}</p>
+                </article>
+                <hr>
+            {% endfor %}
+        </section>
+ 
+        <section>
+            <h2>
+                <img src="/static/images/stars.png" alt="stars" height="50">
+                Спасибо, что вы с нами!
+                <img src="/static/images/stars.png" alt="stars" height="50">
+            </h2>
+            <p>Если вы ещё не выбрали средство, переходите в наш <a href="/catalog">каталог</a>.
+                Надеемся, что вам что-нибудь приглянется.
+            </p>
+        </section>
+    </main>
+
+      <footer>
+        <hr>
+        <p><strong>Чудесные средства.</strong> С вас недуг, с нас средство.</p>
+
+        <p>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a>
+        </p>
+
+        <p>
+            Адрес: деревня Верхние Бороды, дом с петухом на крыше<br>
+            Телефон: +7 (000) 000-00-00<br>
+            Почта: hello@miracle.example
+        </p>
+
+        <p><small>Наши средства не являются лекарствами и не заменяют консультацию врача. Наукой эффект не подтверждён, зато подтверждён нашими клиентами. При болезни обращайтесь к врачу.</small></p>
+        <p><small>&copy; 2026 Чудесные средства. Все права защищены (и заговорены).</small></p>
+    </footer>
+</body>
+</html>
+ 

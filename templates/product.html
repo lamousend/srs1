@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+    <link rel="icon" href="/static/images/miracle.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/"><img src="/static/images/miracle.png" alt="Логотип" width="100" align="middle"></a>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a> |
+            {% if session.get("user") %}
+                <a href="/logout">Выход ({{ session.get("user") }})</a>
+            {% else %}
+                <a href="/login">Вход</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        <h1>{{ product.name }}</h1>
+
+        {% if product.image %}
+            <img src="/static/images/{{ product.image }}" alt="{{ product.name }}" width="250">
+        {% endif %}
+
+        <p>{{ product.short }}</p>
+        <p><strong>{{ product.price }} ₽</strong> | В наличии: {{ product.stock }} шт.</p>
+
+        <h2>О средстве</h2>
+        <dl>
+            <dt>Состав</dt>
+            <dd>{{ product.substance }}</dd>
+            <dt>Как применять</dt>
+            <dd>{{ product.usage }}</dd>
+            <dt>Когда ждать эффект</dt>
+            <dd>{{ product.effect_time }}</dd>
+        </dl>
+
+        <h2>Помогает при</h2>
+        <ul>
+            {% for d in diseases %}
+                {% if d.slug in product.diseases %}
+                    <li><a href="/catalog?disease={{ d.slug }}">{{ d.name }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <form action="/buy" method="post">
+            <label for="qty">Количество (от 0 до {{ product.stock }}):</label>
+            <input type="number" id="qty" name="qty_{{ product.id }}" min="0" max="{{ product.stock }}" value="0">
+            <button type="submit">Купить</button>
+        </form>
+
+        <p><a href="/catalog">Вернуться в каталог</a></p>
+    </main>
+
+    <footer>
+        <hr>
+        <p><strong>Чудесные средства.</strong> С вас недуг, с нас средство.</p>
+
+        <p>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a>
+        </p>
+
+        <p>
+            Адрес: деревня Верхние Бороды, дом с петухом на крыше<br>
+            Телефон: +7 (000) 000-00-00<br>
+            Почта: hello@miracle.example
+        </p>
+
+        <p><small>Наши средства не являются лекарствами и не заменяют консультацию врача. Наукой эффект не подтверждён, зато подтверждён нашими клиентами. При болезни обращайтесь к врачу.</small></p>
+        <p><small>&copy; 2026 Чудесные средства. Все права защищены (и заговорены).</small></p>
+    </footer>
+</body>
+</html>

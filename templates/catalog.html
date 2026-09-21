@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог</title>
+    <link rel="icon" href="/static/images/miracle.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/"><img src="/static/images/miracle.png" alt="Логотип" width="100" align="middle"></a>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a> |
+            {% if session.get("user") %}
+                <a href="/logout">Выход ({{ session.get("user") }})</a>
+            {% else %}
+                <a href="/login">Вход</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        <h1>Каталог наших средств</h1>
+
+        <details open>
+            <summary><strong>🦋 Что вас беспокоит?</strong></summary>
+            <ul>
+                <li><a href="/catalog">Показать все товары</a></li>
+                <li><a href="/catalog?disease=insomnia">Бессонница</a></li>
+                <li><a href="/catalog?disease=hangover">Похмелье</a></li>
+                <li><a href="/catalog?disease=fatigue">Усталость</a></li>
+                <li><a href="/catalog?disease=mood">Плохое настроение</a></li>
+                <li><a href="/catalog?disease=cold">Простуда</a></li>
+                <li><a href="/catalog?disease=arthritis">Артрит</a></li>
+            </ul>
+        </details>
+
+        {% if errors %}
+            <p><strong>Проверьте данные:</strong></p>
+            <ul>
+                {% for e in errors %}
+                    <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <h2>
+            {% if selected %}Средства от болезни «{{ selected.name }}»{% else %}Все средства{% endif %}
+            (найдено: {{ products|length }})
+        </h2>
+
+        {% if products %}
+            <p>Укажите, сколько штук каждого товара вы хотите купить (0 - не покупать), и нажмите «Купить».</p>
+        {% endif %}
+
+        <form action="/buy" method="post">
+            <input type="hidden" name="disease" value="{% if selected %}{{ selected.slug }}{% endif %}">
+
+            <div>
+                {% for p in products %}
+                    <div>
+                        {% if p.image %}
+                            <img src="/static/images/{{ p.image }}" alt="{{ p.name }}" width="150">
+                        {% endif %}
+
+                        <h3><a href="/product/{{ p.id }}">{{ p.name }}</a></h3>
+                        <p>{{ p.short }}</p>
+                        <div>{{ p.price }} ₽</div>
+                        <p>В наличии: {{ p.stock }} шт.</p>
+
+                        <label for="qty-{{ p.id }}">Количество (от 0 до {{ p.stock }}):</label>
+                        <input type="number" id="qty-{{ p.id }}" name="qty_{{ p.id }}" min="0" max="{{ p.stock }}" value="0">
+
+                        <p><a href="/product/{{ p.id }}">Подробнее</a></p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if products %}
+                <p><button type="submit">Купить</button></p>
+            {% endif %}
+        </form>
+    </main>
+
+      <footer>
+        <hr>
+        <p><strong>Чудесные средства.</strong> С вас недуг, с нас средство.</p>
+
+        <p>
+            <a href="/">Главная</a> |
+            <a href="/catalog">Каталог</a> |
+            <a href="/reviews">Отзывы</a>
+        </p>
+
+        <p>
+            Адрес: деревня Верхние Бороды, дом с петухом на крыше<br>
+            Телефон: +7 (000) 000-00-00<br>
+            Почта: hello@miracle.example
+        </p>
+
+        <p><small>Наши средства не являются лекарствами и не заменяют консультацию врача. Наукой эффект не подтверждён, зато подтверждён нашими клиентами. При болезни обращайтесь к врачу.</small></p>
+        <p><small>&copy; 2026 Чудесные средства. Все права защищены (и заговорены).</small></p>
+    </footer>
+</body>
+</html>
